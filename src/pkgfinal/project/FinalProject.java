@@ -3,6 +3,7 @@ package pkgfinal.project;
 import DLibX.DConsole;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.geom.Point2D;
 import java.io.File;
 import java.util.*;
 import javax.sound.sampled.AudioSystem;
@@ -17,32 +18,38 @@ public class FinalProject {
         DConsole dc = new DConsole(1200, 800);
         playSong("miceonvenus");
         dc.setMouseMode(DConsole.CURSOR_HIDDEN);
+        ArrayList<Structure> structs = null;
+        //// THE STRUCTURES NEED TO BE LISTED BELOW ////
+        ArrayList<MenuElement> elements = null;
+        Player player = new Player(0, 0);
         while (true) {
-            int gamestarted = 0;//Keeps track of which menu you're on
+            int gameStarted = 0;//Keeps track of which menu you're on
             int playbutton1 = 0;//for menu sounds
             int playbutton2 = 0;
+            Point2D mousePos = null;
 
-            ArrayList<Structure> structs = null;
-            //// THE STRUCTURES NEED TO BE LISTED BELOW ////
-            Player player = new Player(0, 0);
-
-            while (gamestarted == 0) {
+            if (gameStarted == 0) {
+                elements.clear();
+                elements.add(new MenuElement(600, 100, 200, 50, null, "Adventure Quest: The Wandering!", null, Color.BLACK, "Times New Roman", 50));
+                elements.add(new MenuElement(600, 400, 220, 50, "button1", "New Game", Color.CYAN, Color.BLACK, "Times New Roman", 40));
+            }
+            while (gameStarted == 0) {
+                mousePos.setLocation(dc.getMouseXPosition(), dc.getMouseYPosition());
                 dc.setBackground(Color.GRAY);
-
                 dc.setOrigin(DConsole.ORIGIN_CENTER); //Text Display
                 dc.setPaint(Color.BLACK);
                 dc.setFont(new Font("Times New Roman", Font.BOLD, 50));
-                dc.drawString("Adventure Quest: The Wandering!!!!", 600, 100);
+                dc.drawString("Adventure Quest: The Wandering!", 600, 100);
 
                 dc.setPaint(Color.CYAN);
-                if (dc.getMouseXPosition() >= 490 && dc.getMouseXPosition() 
+                if (dc.getMouseXPosition() >= 490 && dc.getMouseXPosition()
                         <= 710 && dc.getMouseYPosition() >= 385 && dc.getMouseYPosition() <= 435) {
                     dc.fillRect(600, 410, 240, 60);
                 } else {
                     dc.fillRect(600, 410, 220, 50);
                 }
 
-                if (dc.getMouseXPosition() >= 490 && dc.getMouseXPosition() 
+                if (dc.getMouseXPosition() >= 490 && dc.getMouseXPosition()
                         <= 710 && dc.getMouseYPosition() >= 485 && dc.getMouseYPosition() <= 535) {
                     dc.fillRect(600, 510, 240, 60);
                 } else {
@@ -55,49 +62,50 @@ public class FinalProject {
                 if (dc.getMouseXPosition() >= 490 && dc.getMouseXPosition() <= 710 && dc.getMouseYPosition() >= 385 && dc.getMouseYPosition() <= 435) {
                     dc.setFont(new Font("Times New Roman", Font.BOLD, 42));
                     dc.drawString("New Game", 600, 400);
-                    if (playbutton1==0) {
+                    if (playbutton1 == 0) {
                         playSong("button1");
-                        playbutton1=1;                       
-                    } if (dc.isMouseButton(1)) {
+                        playbutton1 = 1;
+                    }
+                    if (dc.isMouseButton(1)) {
                         playSong("button2");
-                        gamestarted = 2;//New Game
+                        gameStarted = 2;//New Game
                     }
                 } else {
                     dc.setFont(new Font("Times New Roman", Font.PLAIN, 40));
                     dc.drawString("New Game", 600, 400);
-                    playbutton1=0;
-                    
+                    playbutton1 = 0;
+
                 }
 
                 if (dc.getMouseXPosition() >= 490 && dc.getMouseXPosition() <= 710 && dc.getMouseYPosition() >= 485 && dc.getMouseYPosition() <= 535) {
                     dc.setFont(new Font("Times New Roman", Font.BOLD, 42));
                     dc.drawString("Load Game", 600, 500);
-                    if (playbutton2==0) {
+                    if (playbutton2 == 0) {
                         playSong("button1");
-                        playbutton2=1;
+                        playbutton2 = 1;
                     }
                 } else {
                     dc.setFont(new Font("Times New Roman", Font.PLAIN, 40));
                     dc.drawString("Load Game", 600, 500);
-                    playbutton2=0;
+                    playbutton2 = 0;
                     if (dc.isMouseButton(1)) {
-                        gamestarted = 1; //Load
+                        gameStarted = 1; //Load
                         playSong("button2");
                     }
                 }
 
                 dc.setOrigin(DConsole.ORIGIN_CENTER);
                 dc.fillEllipse(dc.getMouseXPosition(), dc.getMouseYPosition(), 25, 25);
-                
+
                 dc.redraw();
                 dc.pause(20);
                 dc.clear();
             }
-            while (gamestarted == 1) { //New Game
+            while (gameStarted == 1) { //New Game
                 dc.setBackground(Color.GRAY);
-                
-                if(dc.isKeyPressed(27)) {
-                    gamestarted = 0;
+
+                if (dc.isKeyPressed(27)) {
+                    gameStarted = 0;
                     playSong("button2");
                 }
 
@@ -135,11 +143,11 @@ public class FinalProject {
                 dc.clear();
             }
 
-            while (gamestarted == 2) { //Load Game
+            while (gameStarted == 2) { //Load Game
                 dc.setBackground(Color.GRAY);
-                
-                if(dc.isKeyPressed(27)) {
-                    gamestarted = 0;
+
+                if (dc.isKeyPressed(27)) {
+                    gameStarted = 0;
                     playSong("button2");
                 }
 
@@ -177,7 +185,7 @@ public class FinalProject {
                 dc.clear();
             }
 
-            while (gamestarted == 3) { //Main game loop
+            while (gameStarted == 3) { //Main game loop
                 dc.redraw();
                 dc.pause(20);
                 dc.clear();
@@ -209,6 +217,7 @@ public class FinalProject {
             }
         }
     }
+
     public static void playSong(String s) {
         try {
             Clip clip = AudioSystem.getClip();
