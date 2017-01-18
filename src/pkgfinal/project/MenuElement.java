@@ -8,6 +8,10 @@ import java.awt.geom.Rectangle2D;
 
 public class MenuElement {
 
+    int x;
+    int y;
+    int height;
+    int width;
     Rectangle2D rect;
     String text;
     String sound;
@@ -17,12 +21,16 @@ public class MenuElement {
     Font bigFont;
 
     public MenuElement(int x, int y, int width, int height, String sound, String text, Color boxColor, Color textColor, String font, int fontSize) {
+        this.x = x;
+        this.y = y;
+        this.height = height;
+        this.width = width;
         this.rect = new Rectangle2D.Double(x, y, width, height);
         this.text = text;
         this.boxColor = boxColor;
         this.textColor = textColor;
         this.smallFont = new Font(font, Font.PLAIN, fontSize);
-        this.bigFont = new Font(font, Font.BOLD, fontSize + 5);
+        this.bigFont = new Font(font, Font.BOLD, (int) (fontSize * 1.1));
         this.sound = sound;
     }
 
@@ -33,29 +41,26 @@ public class MenuElement {
     public boolean isPressed(Point2D p, boolean isMousePressed) {
         return (isMousePressed && this.isMousedOver(p));
     }
-    
+
     public String getSound() {
         return this.sound;
     }
 
-    public void draw(DConsole dc) {
+    public void draw(DConsole dc, boolean big) {
         dc.setOrigin(DConsole.ORIGIN_TOP_LEFT);
         dc.setPaint(boxColor);
-        dc.fillRect(rect.getX(), rect.getY(), rect.getX() + rect.getWidth(), rect.getY() + rect.getHeight());
+        if (big) {
+            dc.fillRect(this.x * 0.9, this.y * 0.9, this.x * 1.1 + this.width, this.y * 1.1 + this.height);
+        } else {
+            dc.fillRect(this.x, this.y, this.x + this.width, this.y + this.height);
+        }
         dc.setOrigin(DConsole.ORIGIN_CENTER);
         dc.setPaint(textColor);
-        dc.setFont(smallFont);
-        dc.drawString(text, rect.getX() + rect.getWidth() / 2, rect.getY() + rect.getHeight() / 2);
+        if (big) {
+            dc.setFont(bigFont);
+        } else {
+            dc.setFont(smallFont);
+        }
+        dc.drawString(text, this.x + this.width / 2, this.y + this.height / 2);
     }
-
-    public void drawBig(DConsole dc) {
-        dc.setOrigin(DConsole.ORIGIN_TOP_LEFT);
-        dc.setPaint(boxColor);
-        dc.fillRect(rect.getX() - 10, rect.getY() - 10, rect.getX() + rect.getWidth() + 10, rect.getY() + rect.getHeight() + 10);
-        dc.setOrigin(DConsole.ORIGIN_CENTER);
-        dc.setPaint(textColor);
-        dc.setFont(bigFont);
-        dc.drawString(text, rect.getX() + rect.getWidth() / 2, rect.getY() + rect.getHeight() / 2);
-    }
-
 }

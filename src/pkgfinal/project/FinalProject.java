@@ -20,82 +20,33 @@ public class FinalProject {
         dc.setMouseMode(DConsole.CURSOR_HIDDEN);
         ArrayList<Structure> structs = null;
         //// THE STRUCTURES NEED TO BE LISTED BELOW ////
-        ArrayList<MenuElement> elements = null;
-        Player player = new Player(0, 0);
+        ArrayList<MenuElement> elements = new ArrayList<>();
+        Player player = new Player(0, 0);//Initialize a new player
         while (true) {
             int gameStarted = 0;//Keeps track of which menu you're on
-            int playbutton1 = 0;//for menu sounds
-            int playbutton2 = 0;
-            Point2D mousePos = null;
+            Point2D mousePos = new Point2D.Double();
 
+            //Clear the previous elements and make new ones once before entering the while loop
             if (gameStarted == 0) {
                 elements.clear();
                 elements.add(new MenuElement(600, 100, 200, 50, null, "Adventure Quest: The Wandering!", null, Color.BLACK, "Times New Roman", 50));
                 elements.add(new MenuElement(600, 400, 220, 50, "button1", "New Game", Color.CYAN, Color.BLACK, "Times New Roman", 40));
+                elements.add(new MenuElement(600, 500, 220, 50, "button1", "Load Game", Color.CYAN, Color.BLACK, "Times New Roman", 40));
             }
             while (gameStarted == 0) {
                 mousePos.setLocation(dc.getMouseXPosition(), dc.getMouseYPosition());
                 dc.setBackground(Color.GRAY);
-                dc.setOrigin(DConsole.ORIGIN_CENTER); //Text Display
-                dc.setPaint(Color.BLACK);
-                dc.setFont(new Font("Times New Roman", Font.BOLD, 50));
-                dc.drawString("Adventure Quest: The Wandering!", 600, 100);
-
-                dc.setPaint(Color.CYAN);
-                if (dc.getMouseXPosition() >= 490 && dc.getMouseXPosition()
-                        <= 710 && dc.getMouseYPosition() >= 385 && dc.getMouseYPosition() <= 435) {
-                    dc.fillRect(600, 410, 240, 60);
-                } else {
-                    dc.fillRect(600, 410, 220, 50);
+                elements.get(0).draw(dc, false);
+                for (int i = 1; i < elements.size(); i++) {
+                    elements.get(1).draw(dc, false);
+                    elements.get(2).draw(dc, false);
                 }
 
-                if (dc.getMouseXPosition() >= 490 && dc.getMouseXPosition()
-                        <= 710 && dc.getMouseYPosition() >= 485 && dc.getMouseYPosition() <= 535) {
-                    dc.fillRect(600, 510, 240, 60);
-                } else {
-                    dc.fillRect(600, 510, 220, 50);
-                }
-
+                //Fill Cyan boxes that are bigger if I hover over them
+                //Fill Black text that is bigger and makes a sound if I hover over it
+                //It should make annother sound if I click it
                 dc.setOrigin(DConsole.ORIGIN_CENTER);
-                dc.setPaint(Color.BLACK);
-
-                if (dc.getMouseXPosition() >= 490 && dc.getMouseXPosition() <= 710 && dc.getMouseYPosition() >= 385 && dc.getMouseYPosition() <= 435) {
-                    dc.setFont(new Font("Times New Roman", Font.BOLD, 42));
-                    dc.drawString("New Game", 600, 400);
-                    if (playbutton1 == 0) {
-                        playSong("button1");
-                        playbutton1 = 1;
-                    }
-                    if (dc.isMouseButton(1)) {
-                        playSong("button2");
-                        gameStarted = 2;//New Game
-                    }
-                } else {
-                    dc.setFont(new Font("Times New Roman", Font.PLAIN, 40));
-                    dc.drawString("New Game", 600, 400);
-                    playbutton1 = 0;
-
-                }
-
-                if (dc.getMouseXPosition() >= 490 && dc.getMouseXPosition() <= 710 && dc.getMouseYPosition() >= 485 && dc.getMouseYPosition() <= 535) {
-                    dc.setFont(new Font("Times New Roman", Font.BOLD, 42));
-                    dc.drawString("Load Game", 600, 500);
-                    if (playbutton2 == 0) {
-                        playSong("button1");
-                        playbutton2 = 1;
-                    }
-                } else {
-                    dc.setFont(new Font("Times New Roman", Font.PLAIN, 40));
-                    dc.drawString("Load Game", 600, 500);
-                    playbutton2 = 0;
-                    if (dc.isMouseButton(1)) {
-                        gameStarted = 1; //Load
-                        playSong("button2");
-                    }
-                }
-
-                dc.setOrigin(DConsole.ORIGIN_CENTER);
-                dc.fillEllipse(dc.getMouseXPosition(), dc.getMouseYPosition(), 25, 25);
+                dc.fillEllipse(mousePos.getX(), mousePos.getY(), 25, 25);
 
                 dc.redraw();
                 dc.pause(20);
@@ -226,6 +177,5 @@ public class FinalProject {
         } catch (Exception exc) {
             exc.printStackTrace(System.out);
         }
-
     }
 }
