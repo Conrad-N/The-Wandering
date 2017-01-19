@@ -8,6 +8,9 @@ import java.io.File;
 import java.util.*;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+import java.io.FileNotFoundException;
+import java.io.PrintStream;
+import java.util.Scanner;
 
 public class FinalProject {
 
@@ -131,6 +134,56 @@ public class FinalProject {
                 dc.drawString("Save 2", 598, 390);
                 dc.drawString("Save 3", 940, 390);
 
+                Scanner fileInput = null;
+                int save = 0;
+                String saveName = null;
+
+                if (dc.isMouseButton() == true) { //if click check for if mouse is on any button
+
+                    if (dc.getMouseXPosition() >= 171 && dc.getMouseXPosition() <= 342 //Save 1
+                            && dc.getMouseYPosition() >= 320 && dc.getMouseYPosition() <= 480) {
+
+                        try {
+                            fileInput = new Scanner(new File("save1.txt")); //read file
+                            save = 1;
+                            saveName = fileInput.nextLine();
+
+                        } catch (Exception e) { //the catch
+                            System.out.println("Something's not good.");
+                            System.exit(-1);
+                        }
+                    }
+
+                    if (dc.getMouseXPosition() >= 513 && dc.getMouseXPosition() <= 684 //Save 2
+                            && dc.getMouseYPosition() >= 320 && dc.getMouseYPosition() <= 480) {
+
+                        try {
+                            fileInput = new Scanner(new File("save2.txt")); //read file
+                            save = 2;
+                            saveName = fileInput.nextLine();
+
+                        } catch (Exception e) { //the catch
+                            System.out.println("Something's not good.");
+                            System.exit(-1);
+                        }
+                    }
+
+                    if (dc.getMouseXPosition() >= 855 && dc.getMouseXPosition() <= 1026 //Save 3
+                            && dc.getMouseYPosition() >= 320 && dc.getMouseYPosition() <= 480) {
+
+                        try {
+                            fileInput = new Scanner(new File("save3.txt")); //read file
+                            save = 3;
+                            saveName = fileInput.nextLine();
+
+                        } catch (Exception e) { //the catch
+                            System.out.println("Something's not good.");
+                            System.exit(-1);
+                        }
+                    }
+
+                }
+            
                 dc.redraw();
                 dc.pause(20);
                 dc.clear();
