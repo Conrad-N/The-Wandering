@@ -51,7 +51,7 @@ public class MenuElement {
         if (boxColor != null) {
             dc.setPaint(boxColor);
             if (big) {
-                dc.fillRect(this.x * 0.9, this.y * 0.9, 1.1 * this.width, 1.1 * this.height);
+                dc.fillRect(this.x, this.y, this.width * 1.1, this.height * 1.1);
             } else {
                 dc.fillRect(this.x, this.y, this.width, this.height);
             }
