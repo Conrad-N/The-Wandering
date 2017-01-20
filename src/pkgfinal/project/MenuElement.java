@@ -25,7 +25,7 @@ public class MenuElement {
         this.y = y;
         this.height = height;
         this.width = width;
-        this.rect = new Rectangle2D.Double(x, y, width, height);
+        this.rect = new Rectangle2D.Double(x - width / 2, y - height / 2, width, height);
         this.text = text;
         this.boxColor = boxColor;
         this.textColor = textColor;
@@ -47,20 +47,22 @@ public class MenuElement {
     }
 
     public void draw(DConsole dc, boolean big) {
-        dc.setOrigin(DConsole.ORIGIN_TOP_LEFT);
-        dc.setPaint(boxColor);
-        if (big) {
-            dc.fillRect(this.x * 0.9, this.y * 0.9, this.x * 1.1 + this.width, this.y * 1.1 + this.height);
-        } else {
-            dc.fillRect(this.x, this.y, this.x + this.width, this.y + this.height);
-        }
         dc.setOrigin(DConsole.ORIGIN_CENTER);
+        if (boxColor != null) {
+            dc.setPaint(boxColor);
+            if (big) {
+                dc.fillRect(this.x * 0.9, this.y * 0.9, 1.1 * this.width, 1.1 * this.height);
+            } else {
+                dc.fillRect(this.x, this.y, this.width, this.height);
+            }
+        }
+
         dc.setPaint(textColor);
         if (big) {
             dc.setFont(bigFont);
         } else {
             dc.setFont(smallFont);
         }
-        dc.drawString(text, this.x + this.width / 2, this.y + this.height / 2);
+        dc.drawString(text, this.x, this.y);
     }
 }

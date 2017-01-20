@@ -32,24 +32,23 @@ public class FinalProject {
             //Clear the previous elements and make new ones once before entering the while loop
             if (gameStarted == 0) {
                 elements.clear();
-                elements.add(new MenuElement(600, 100, 200, 50, null, "Adventure Quest: The Wandering!", null, Color.BLACK, "Times New Roman", 50));
-                elements.add(new MenuElement(600, 400, 220, 50, "button1", "New Game", Color.CYAN, Color.BLACK, "Times New Roman", 40));
-                elements.add(new MenuElement(600, 500, 220, 50, "button1", "Load Game", Color.CYAN, Color.BLACK, "Times New Roman", 40));
+                elements.add(new MenuElement(600, 100, 0, 0, null, "Adventure Quest: The Wandering!", null, Color.BLACK, "Times New Roman", 50));
+                elements.add(new MenuElement(600, 400, 200, 70, "button1", "New Game", Color.CYAN, Color.BLACK, "Times New Roman", 40));
+                elements.add(new MenuElement(600, 500, 200, 70, "button1", "Load Game", Color.CYAN, Color.BLACK, "Times New Roman", 40));
             }
             while (gameStarted == 0) {
                 mousePos.setLocation(dc.getMouseXPosition(), dc.getMouseYPosition());
                 dc.setBackground(Color.GRAY);
                 elements.get(0).draw(dc, false);
                 for (int i = 1; i < elements.size(); i++) {
-                    elements.get(1).draw(dc, false);
-                    elements.get(2).draw(dc, false);
+                    elements.get(i).draw(dc, elements.get(i).isMousedOver(mousePos));
+                    if (true) {
+                        
+                    }
                 }
 
-                //Fill Cyan boxes that are bigger if I hover over them
-                //Fill Black text that is bigger and makes a sound if I hover over it
-                //It should make annother sound if I click it
                 dc.setOrigin(DConsole.ORIGIN_CENTER);
-                dc.fillEllipse(mousePos.getX(), mousePos.getY(), 25, 25);
+                dc.fillEllipse(mousePos.getX(), mousePos.getY(), 12, 12);
 
                 dc.redraw();
                 dc.pause(20);
@@ -183,7 +182,7 @@ public class FinalProject {
                     }
 
                 }
-            
+
                 dc.redraw();
                 dc.pause(20);
                 dc.clear();
