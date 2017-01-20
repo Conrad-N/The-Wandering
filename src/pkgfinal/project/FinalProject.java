@@ -21,10 +21,13 @@ public class FinalProject {
         DConsole dc = new DConsole(1200, 800);
         playSong("miceonvenus");
         dc.setMouseMode(DConsole.CURSOR_HIDDEN);
-        ArrayList<Structure> structs = null;
-        //// THE STRUCTURES NEED TO BE LISTED BELOW ////
+        
+        ArrayList<Structure> structs = new ArrayList<>();
+        structs.add(new Structure(5, 750, 1100, 100));
+
         ArrayList<MenuElement> elements = new ArrayList<>();
-        Player player = new Player(0, 0);//Initialize a new player
+        Player player = new Player(300, 200);//Initialize a new player
+        
         while (true) {
             int gameStarted = 0;//Keeps track of which menu you're on
             Point2D mousePos = new Point2D.Double();
@@ -189,9 +192,12 @@ public class FinalProject {
             }
 
             while (gameStarted == 3) { //Main game loop
+
+                dc.setPaint(new Color(0, 191, 255));
+                dc.fillRect(0, 0, 1200, 800);
                 dc.redraw();
-                dc.pause(20);
-                dc.clear();
+
+                dc.setPaint(Color.BLACK);
 
                 player.gravityForce();
                 player.frictionForce();
@@ -217,6 +223,10 @@ public class FinalProject {
                 for (Structure s : structs) {
                     s.draw(dc, player);
                 }
+
+                dc.redraw();
+                dc.pause(20);
+                dc.clear();
             }
         }
     }

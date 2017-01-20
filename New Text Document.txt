@@ -1,0 +1,13 @@
+2017-01-16
+-----------------------
+-Made this file
+-Everything before this pretend is written
+
+-Added sound effect for selecting and highlighting
+ an option
+
+-You can now press ESCAPE to go back in the
+ Load/Save screen
+
+-Temporary ugly black mouse made so our mouse
+ isn't invisible

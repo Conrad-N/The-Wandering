@@ -39,7 +39,7 @@ public class Player {
         if (this.y + 20 > s.getY() && this.y < s.getY() + s.getHeight()) { //to the players previous position and that of the structure
             if (this.x + 20 > s.getX() && this.prevX + 20 <= s.getX()) {
                 this.x = s.getX() - 20;
-                this.xChange = 0;//If the player is against a wall let them jump off of it
+                this.xChange = 0;
             } else if (this.x < s.getX() + s.getWidth() && this.prevX >= s.getX() + s.getWidth()) {
                 this.x = s.getX() + s.getWidth();
                 this.xChange = 0;
@@ -76,12 +76,20 @@ public class Player {
             //this.jumpCharge = 0.1;
         }
 
-        if (this.isGrounded && dc.isKeyPressed('d')) {
-            this.moveForce = Math.min(moveForce + 1, 5);
-        }
+        if (dc.isKeyPressed('d')) {
 
-        if (this.isGrounded && dc.isKeyPressed('a')) {
-            this.moveForce = Math.max(moveForce - 1, -5);
+            if (this.isGrounded) {
+                this.moveForce = Math.min(moveForce + 1, 5);
+            } else {
+                this.moveForce = Math.min(moveForce + 0.5, 2.5);
+            }
+        }
+        if (dc.isKeyPressed('a')) {
+            if (this.isGrounded) {
+                this.moveForce = Math.max(moveForce - 1, -5);
+            } else {
+                this.moveForce = Math.max(moveForce - 0.5, -2.5);
+            }
         }
     }
 
@@ -92,7 +100,8 @@ public class Player {
 
     public void frictionForce() { //Slow the players movement as they go along the floor
         if (this.isGrounded) {
-            xChange *= 0.8;
+            xChange *= 0.9;
+            moveForce *= 0.9;
         }
     }
 
@@ -101,26 +110,31 @@ public class Player {
     }
 
     public void scroll() { //Scroll the screen, this will simply add a position modifier when drawing things.
-        if (this.x - this.scroll > 700) {
+        if (this.x - this.scroll > 1000) {
             this.scrollingRight = true;
-        } else if (this.x - scroll < 100) {
+        } else if (this.x - scroll < 200) {
             this.scrollingLeft = true;
+        } else {
+            this.scrollingLeft = false;
+            this.scrollingRight = false;
         }
 
         if (this.scrollingRight) {
             this.scroll += 10;
-            if (this.x - scroll < 550) {
-                this.scrollingRight = false;
-            }
         } else if (this.scrollingLeft) {
             this.scroll -= 10;
-            if (this.x - scroll < 250) {
-                this.scrollingRight = false;
-            }
         }
     }
 
     public void setGrounded(boolean i) {
         this.isGrounded = i;
+    }
+
+    public int getX() {
+        return (int) this.x;
+    }
+
+    public int getY() {
+        return (int) this.y;
     }
 }
