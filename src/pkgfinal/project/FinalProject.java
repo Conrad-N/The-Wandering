@@ -18,6 +18,7 @@ public class FinalProject {
 
     public static void main(String[] args) {
 
+        //lolol
         DConsole dc = new DConsole(1200, 800);
         playSong("miceonvenus");
         dc.setMouseMode(DConsole.CURSOR_HIDDEN);
