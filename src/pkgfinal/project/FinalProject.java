@@ -19,15 +19,15 @@ public class FinalProject {
     public static void main(String[] args) {
 
         DConsole dc = new DConsole(1200, 800);
-        playSong("miceonvenus");
+        // playSong("miceonvenus");
         dc.setMouseMode(DConsole.CURSOR_HIDDEN);
-        
+
         ArrayList<Structure> structs = new ArrayList<>();
         structs.add(new Structure(5, 750, 1100, 100));
 
         ArrayList<MenuElement> elements = new ArrayList<>();
         Player player = new Player(300, 200);//Initialize a new player
-        
+
         while (true) {
             int gameStarted = 0;//Keeps track of which menu you're on
             Point2D mousePos = new Point2D.Double();
@@ -39,7 +39,7 @@ public class FinalProject {
                 elements.add(new MenuElement(600, 400, 200, 70, "button1", "New Game", Color.CYAN, Color.BLACK, "Times New Roman", 40));
                 elements.add(new MenuElement(600, 500, 200, 70, "button1", "Load Game", Color.CYAN, Color.BLACK, "Times New Roman", 40));
             }
-            while (gameStarted == 0) {
+              while (gameStarted == 0) {
                 mousePos.setLocation(dc.getMouseXPosition(), dc.getMouseYPosition());
                 dc.setBackground(Color.GRAY);
                 elements.get(0).draw(dc, false);
@@ -192,46 +192,60 @@ public class FinalProject {
             }
 
             while (gameStarted == 3) { //Main game loop
+             
+            int damage = 0; //MOVE BEFORE START
+            int hearts = 0;
+            int playerhealthmax = 50 + hearts;
+            int playerhealth = 50+hearts-damage;
 
-                dc.setPaint(new Color(0, 191, 255));
-                dc.fillRect(0, 0, 1200, 800);
-                dc.redraw();
+            dc.setOrigin(DConsole.ORIGIN_TOP_LEFT);
+            dc.drawImage("forest1.jpg", 0 - player.getScroll(), 0);
+            dc.setPaint(Color.BLACK);
 
-                dc.setPaint(Color.BLACK);
+            dc.fillRect(80, 30, 340, 70);
+            dc.setPaint(Color.RED);
+            dc.fillRect(100, 50, 300, 30);
 
-                player.gravityForce();
-                player.frictionForce();
+            dc.setOrigin(DConsole.ORIGIN_CENTER);
+            dc.setPaint(Color.WHITE);
+            
+            dc.setFont(new Font("Arial", Font.BOLD,20));
+            dc.drawString(playerhealth +" / "+ playerhealthmax, 250, 60);
 
-                player.setGrounded(false);
-                for (Structure s : structs) {
-                    player.isTouchingStructure(s);
+            
+            player.gravityForce();
+            player.frictionForce();
 
-                }
+            player.setGrounded(false);
+            for (Structure s : structs) {
+                player.isTouchingStructure(s);
 
-                player.moveCommands(dc);
-
-                for (Structure s : structs) {
-                    player.isTouchingStructure(s);
-
-                }
-
-                player.recordPrevValues();
-                player.move();
-                player.scroll();
-                player.draw(dc);
-
-                for (Structure s : structs) {
-                    s.draw(dc, player);
-                }
-
-                dc.redraw();
-                dc.pause(20);
-                dc.clear();
             }
+
+            player.moveCommands(dc);
+
+            for (Structure s : structs) {
+                player.isTouchingStructure(s);
+
+            }
+
+            player.recordPrevValues();
+            player.move();
+            player.scroll();
+            player.draw(dc);
+
+            for (Structure s : structs) {
+                s.draw(dc, player);
+            }
+
+            dc.redraw();
+            dc.pause(20);
+            dc.clear();
         }
     }
+}
 
-    public static void playSong(String s) {
+  public static void playSong(String s) {
         try {
             Clip clip = AudioSystem.getClip();
             clip.open(AudioSystem.getAudioInputStream(new File(s + ".wav")));
