@@ -18,16 +18,17 @@ public class FinalProject {
 
     public static void main(String[] args) {
 
+        //lolol
         DConsole dc = new DConsole(1200, 800);
-        playSong("miceonvenus");
+        //  playSong("miceonvenus");
         dc.setMouseMode(DConsole.CURSOR_HIDDEN);
-        
+
         ArrayList<Structure> structs = new ArrayList<>();
         structs.add(new Structure(5, 750, 1100, 100));
 
         ArrayList<MenuElement> elements = new ArrayList<>();
         Player player = new Player(300, 200);//Initialize a new player
-        
+
         while (true) {
             int gameStarted = 0;//Keeps track of which menu you're on
             Point2D mousePos = new Point2D.Double();
@@ -46,7 +47,7 @@ public class FinalProject {
                 for (int i = 1; i < elements.size(); i++) {
                     elements.get(i).draw(dc, elements.get(i).isMousedOver(mousePos));
                     if (true) {
-                        
+
                     }
                 }
 
@@ -191,43 +192,54 @@ public class FinalProject {
                 dc.clear();
             }
 
-            while (gameStarted == 3) { //Main game loop
+            //  while (gameStarted == 3) { //Main game loop
+            int damage = 0; //MOVE BEFORE START
+            int hearts = 0;
+            int playerhealthmax = 50 + hearts;
+            int playerhealth = 50 + hearts - damage;
 
-                dc.setPaint(new Color(0, 191, 255));
-                dc.fillRect(0, 0, 1200, 800);
-                dc.redraw();
+            dc.setOrigin(DConsole.ORIGIN_TOP_LEFT);
+            dc.drawImage("forest1.jpg", 0 - player.getScroll(), 0);
+            dc.setPaint(Color.BLACK);
 
-                dc.setPaint(Color.BLACK);
+            dc.fillRect(80, 30, 340, 70);
+            dc.setPaint(Color.RED);
+            dc.fillRect(100, 50, 300, 30);
 
-                player.gravityForce();
-                player.frictionForce();
+            dc.setOrigin(DConsole.ORIGIN_CENTER);
+            dc.setPaint(Color.WHITE);
 
-                player.setGrounded(false);
-                for (Structure s : structs) {
-                    player.isTouchingStructure(s);
+            dc.setFont(new Font("Arial", Font.BOLD, 20));
+            dc.drawString(playerhealth + " / " + playerhealthmax, 250, 60);
 
-                }
+            player.gravityForce();
+            player.frictionForce();
 
-                player.moveCommands(dc);
+            player.setGrounded(false);
+            for (Structure s : structs) {
+                player.isTouchingStructure(s);
 
-                for (Structure s : structs) {
-                    player.isTouchingStructure(s);
-
-                }
-
-                player.recordPrevValues();
-                player.move();
-                player.scroll();
-                player.draw(dc);
-
-                for (Structure s : structs) {
-                    s.draw(dc, player);
-                }
-
-                dc.redraw();
-                dc.pause(20);
-                dc.clear();
             }
+
+            player.moveCommands(dc);
+
+            for (Structure s : structs) {
+                player.isTouchingStructure(s);
+
+            }
+
+            player.recordPrevValues();
+            player.move();
+            player.scroll();
+            player.draw(dc);
+
+            for (Structure s : structs) {
+                s.draw(dc, player);
+            }
+
+            dc.redraw();
+            dc.pause(20);
+            dc.clear();
         }
     }
 
