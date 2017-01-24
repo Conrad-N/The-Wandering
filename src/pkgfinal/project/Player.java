@@ -106,6 +106,7 @@ public class Player {
     }
 
     public void draw(DConsole dc) { //Set the players color acording to thier charge and draw them
+        dc.setOrigin(DConsole.ORIGIN_TOP_LEFT);
         dc.fillRect(this.x - this.scroll, this.y, 20, 20);
     }
 
@@ -114,7 +115,7 @@ public class Player {
             this.scrollingRight = true;
         } else if (this.x - scroll < 200) {
             this.scrollingLeft = true;
-        } else {
+        } else if (this.x - this.scroll < 800 && this.x - this.scroll > 400) {
             this.scrollingLeft = false;
             this.scrollingRight = false;
         }
