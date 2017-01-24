@@ -34,9 +34,9 @@ public class FinalProject {
             //Clear the previous elements and make new ones once before entering the while loop
             if (gameState == 0) {
                 elements.clear();
-                elements.add(new MenuElement(600, 100, 0, 0, null, "Adventure Quest: The Wandering!", null, Color.BLACK, "Times New Roman", 50));
-                elements.add(new MenuElement(600, 400, 200, 70, "button1", "New Game", Color.CYAN, Color.BLACK, "Times New Roman", 40));
-                elements.add(new MenuElement(600, 500, 200, 70, "button1", "Load Game", Color.CYAN, Color.BLACK, "Times New Roman", 40));
+                elements.add(new MenuElement(dc.getWidth()/2, 100, 0, 0, null, "Adventure Quest: The Wandering!", null, Color.BLACK, "Times New Roman", 50));
+                elements.add(new MenuElement(dc.getWidth()/2, 400, 200, 70, "button1", "New Game", Color.CYAN, Color.BLACK, "Times New Roman", 40));
+                elements.add(new MenuElement(dc.getWidth()/2, 500, 200, 70, "button1", "Load Game", Color.CYAN, Color.BLACK, "Times New Roman", 40));
                 while (gameState == 0) {
                     mousePos.setLocation(dc.getMouseXPosition(), dc.getMouseYPosition());
                     dc.setBackground(Color.GRAY);
@@ -60,7 +60,7 @@ public class FinalProject {
             }
             if (gameState == 1) {
                 elements.clear();
-                elements.add(new MenuElement(600, 50, 0, 0, null, "Pick a new game file.", null, Color.BLACK, "Times New Roman", 50));
+                elements.add(new MenuElement(dc.getWidth()/2, 50, 0, 0, null, "Pick a new game file.", null, Color.BLACK, "Times New Roman", 50));
                 elements.add(new MenuElement(dc.getWidth()/4 * 1, 320, 150, 150, "button1", "File 1", Color.CYAN, Color.BLACK, "Times New Roman", 40));
                 elements.add(new MenuElement(dc.getWidth()/4 * 2, 320, 150, 150, "button1", "File 2", Color.CYAN, Color.BLACK, "Times New Roman", 40));
                 elements.add(new MenuElement(dc.getWidth()/4 * 3, 320, 150, 150, "button1", "File 3", Color.CYAN, Color.BLACK, "Times New Roman", 40));
@@ -93,7 +93,7 @@ public class FinalProject {
             }
             if (gameState == 2) {
                 elements.clear();
-                elements.add(new MenuElement(600, 50, 0, 0, null, "Pick a game file to load.", null, Color.BLACK, "Times New Roman", 50));
+                elements.add(new MenuElement(dc.getWidth()/2, 50, 0, 0, null, "Pick a game file to load.", null, Color.BLACK, "Times New Roman", 50));
                 elements.add(new MenuElement(dc.getWidth()/4 * 1, 320, 150, 150, "button1", "File 1", Color.CYAN, Color.BLACK, "Times New Roman", 40));
                 elements.add(new MenuElement(dc.getWidth()/4 * 2, 320, 150, 150, "button1", "File 2", Color.CYAN, Color.BLACK, "Times New Roman", 40));
                 elements.add(new MenuElement(dc.getWidth()/4 * 3, 320, 150, 150, "button1", "File 3", Color.CYAN, Color.BLACK, "Times New Roman", 40));
