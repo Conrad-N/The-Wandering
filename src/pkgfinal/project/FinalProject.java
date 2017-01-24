@@ -2,7 +2,6 @@ package pkgfinal.project;
 
 import DLibX.DConsole;
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.geom.Point2D;
 import java.io.File;
 import java.util.*;
@@ -112,16 +111,16 @@ public class FinalProject {
                     Scanner fileInput = null;
                     int save = 0;
                     String saveName = null;
-
+                    //Draws all the elements and goes into file writing things if they're clicked on
                     for (int i = 1; i < elements.size(); i++) {
                         elements.get(i).draw(dc, elements.get(i).isMousedOver(mousePos));
                         if (elements.get(i).isPressed(mousePos, dc.isMouseButton(1))) {
                             try {
-                                fileInput = new Scanner(new File("save1.txt")); //read file
+                                fileInput = new Scanner(new File("save1.txt"));
                                 save = i;
                                 saveName = fileInput.nextLine();
 
-                            } catch (Exception e) { //the catch
+                            } catch (Exception e) {
                                 System.out.println("Something's not good.");
                                 System.exit(-1);
                             }
