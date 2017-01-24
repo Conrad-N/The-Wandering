@@ -2,6 +2,7 @@ package pkgfinal.project;
 
 import DLibX.DConsole;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.geom.Point2D;
 import java.io.File;
 import java.util.*;
@@ -26,7 +27,7 @@ public class FinalProject {
 
         ArrayList<MenuElement> elements = new ArrayList<>();
         Player player = new Player(300, 200);//Initialize a new player
-        
+
         int gameState = 0;//Keeps track of which menu you're on
         while (true) {
             Point2D mousePos = new Point2D.Double();
@@ -34,9 +35,9 @@ public class FinalProject {
             //Clear the previous elements and make new ones once before entering the while loop
             if (gameState == 0) {
                 elements.clear();
-                elements.add(new MenuElement(dc.getWidth()/2, 100, 0, 0, null, "Adventure Quest: The Wandering!", null, Color.BLACK, "Times New Roman", 50));
-                elements.add(new MenuElement(dc.getWidth()/2, 400, 200, 70, "button1", "New Game", Color.CYAN, Color.BLACK, "Times New Roman", 40));
-                elements.add(new MenuElement(dc.getWidth()/2, 500, 200, 70, "button1", "Load Game", Color.CYAN, Color.BLACK, "Times New Roman", 40));
+                elements.add(new MenuElement(dc.getWidth() / 2, 100, 0, 0, null, "Adventure Quest: The Wandering!", null, Color.BLACK, "Times New Roman", 50));
+                elements.add(new MenuElement(dc.getWidth() / 2, 400, 200, 70, "button1", "New Game", Color.CYAN, Color.BLACK, "Times New Roman", 40));
+                elements.add(new MenuElement(dc.getWidth() / 2, 500, 200, 70, "button1", "Load Game", Color.CYAN, Color.BLACK, "Times New Roman", 40));
                 while (gameState == 0) {
                     mousePos.setLocation(dc.getMouseXPosition(), dc.getMouseYPosition());
                     dc.setBackground(Color.GRAY);
@@ -60,10 +61,10 @@ public class FinalProject {
             }
             if (gameState == 1) {
                 elements.clear();
-                elements.add(new MenuElement(dc.getWidth()/2, 50, 0, 0, null, "Pick a new game file.", null, Color.BLACK, "Times New Roman", 50));
-                elements.add(new MenuElement(dc.getWidth()/4 * 1, 320, 150, 150, "button1", "File 1", Color.CYAN, Color.BLACK, "Times New Roman", 40));
-                elements.add(new MenuElement(dc.getWidth()/4 * 2, 320, 150, 150, "button1", "File 2", Color.CYAN, Color.BLACK, "Times New Roman", 40));
-                elements.add(new MenuElement(dc.getWidth()/4 * 3, 320, 150, 150, "button1", "File 3", Color.CYAN, Color.BLACK, "Times New Roman", 40));
+                elements.add(new MenuElement(dc.getWidth() / 2, 50, 0, 0, null, "Pick a new game file.", null, Color.BLACK, "Times New Roman", 50));
+                elements.add(new MenuElement(dc.getWidth() / 4 * 1, 320, 150, 150, "button1", "File 1", Color.CYAN, Color.BLACK, "Times New Roman", 40));
+                elements.add(new MenuElement(dc.getWidth() / 4 * 2, 320, 150, 150, "button1", "File 2", Color.CYAN, Color.BLACK, "Times New Roman", 40));
+                elements.add(new MenuElement(dc.getWidth() / 4 * 3, 320, 150, 150, "button1", "File 3", Color.CYAN, Color.BLACK, "Times New Roman", 40));
                 while (gameState == 1) { //New Game
                     mousePos.setLocation(dc.getMouseXPosition(), dc.getMouseYPosition());
                     dc.setBackground(Color.GRAY);
@@ -72,13 +73,13 @@ public class FinalProject {
                         gameState = 0;
                         playSound("button2");
                     }
-                    
+
                     elements.get(0).draw(dc, false);
 
                     for (int i = 1; i < elements.size(); i++) {
                         elements.get(i).draw(dc, elements.get(i).isMousedOver(mousePos));
                         if (elements.get(i).isPressed(mousePos, dc.isMouseButton(1))) {
-                            
+
                         }
                     }
 
@@ -93,10 +94,10 @@ public class FinalProject {
             }
             if (gameState == 2) {
                 elements.clear();
-                elements.add(new MenuElement(dc.getWidth()/2, 50, 0, 0, null, "Pick a game file to load.", null, Color.BLACK, "Times New Roman", 50));
-                elements.add(new MenuElement(dc.getWidth()/4 * 1, 320, 150, 150, "button1", "File 1", Color.CYAN, Color.BLACK, "Times New Roman", 40));
-                elements.add(new MenuElement(dc.getWidth()/4 * 2, 320, 150, 150, "button1", "File 2", Color.CYAN, Color.BLACK, "Times New Roman", 40));
-                elements.add(new MenuElement(dc.getWidth()/4 * 3, 320, 150, 150, "button1", "File 3", Color.CYAN, Color.BLACK, "Times New Roman", 40));
+                elements.add(new MenuElement(dc.getWidth() / 2, 50, 0, 0, null, "Pick a game file to load.", null, Color.BLACK, "Times New Roman", 50));
+                elements.add(new MenuElement(dc.getWidth() / 4 * 1, 320, 150, 150, "button1", "File 1", Color.CYAN, Color.BLACK, "Times New Roman", 40));
+                elements.add(new MenuElement(dc.getWidth() / 4 * 2, 320, 150, 150, "button1", "File 2", Color.CYAN, Color.BLACK, "Times New Roman", 40));
+                elements.add(new MenuElement(dc.getWidth() / 4 * 3, 320, 150, 150, "button1", "File 3", Color.CYAN, Color.BLACK, "Times New Roman", 40));
                 while (gameState == 2) { //Load Game
                     mousePos.setLocation(dc.getMouseXPosition(), dc.getMouseYPosition());
                     dc.setBackground(Color.GRAY);
@@ -107,7 +108,7 @@ public class FinalProject {
                     }
 
                     elements.get(0).draw(dc, false);
-                    
+
                     Scanner fileInput = null;
                     int save = 0;
                     String saveName = null;
@@ -126,7 +127,7 @@ public class FinalProject {
                             }
                         }
                     }
-                    
+
                     dc.setOrigin(DConsole.ORIGIN_CENTER);
                     dc.setPaint(Color.BLACK);
                     dc.fillEllipse(mousePos.getX(), mousePos.getY(), 10, 10);
@@ -136,43 +137,55 @@ public class FinalProject {
                     dc.clear();
                 }
             }
+            if (gameState == 3) {
+                int damage = 0;
+                int hearts = 0;
+                int playerhealthmax = 50 + hearts;
+                int playerhealth = 50 + hearts - damage;
+                while (gameState == 3) { //Main game loop
+                    dc.setOrigin(DConsole.ORIGIN_TOP_LEFT);
+                    dc.drawImage("forest1.jpg", 0 - player.getScroll(), 0);
+                    dc.setPaint(Color.BLACK);
 
-            while (gameState == 3) { //Main game loop
+                    dc.fillRect(80, 30, 340, 70);
+                    dc.setPaint(Color.RED);
+                    dc.fillRect(100, 50, 300, 30);
 
-                dc.setPaint(new Color(0, 191, 255));
-                dc.fillRect(0, 0, 1200, 800);
-                dc.redraw();
+                    dc.setOrigin(DConsole.ORIGIN_CENTER);
+                    dc.setPaint(Color.WHITE);
 
-                dc.setPaint(Color.BLACK);
+                    dc.setFont(new Font("Arial", Font.BOLD, 20));
+                    dc.drawString(playerhealth + " / " + playerhealthmax, 250, 60);
 
-                player.gravityForce();
-                player.frictionForce();
+                    player.gravityForce();
+                    player.frictionForce();
 
-                player.setGrounded(false);
-                for (Structure s : structs) {
-                    player.isTouchingStructure(s);
+                    player.setGrounded(false);
+                    for (Structure s : structs) {
+                        player.isTouchingStructure(s);
 
+                    }
+
+                    player.moveCommands(dc);
+
+                    for (Structure s : structs) {
+                        player.isTouchingStructure(s);
+
+                    }
+
+                    player.recordPrevValues();
+                    player.move();
+                    player.scroll();
+                    player.draw(dc);
+
+                    for (Structure s : structs) {
+                        s.draw(dc, player);
+                    }
+
+                    dc.redraw();
+                    dc.pause(20);
+                    dc.clear();
                 }
-
-                player.moveCommands(dc);
-
-                for (Structure s : structs) {
-                    player.isTouchingStructure(s);
-
-                }
-
-                player.recordPrevValues();
-                player.move();
-                player.scroll();
-                player.draw(dc);
-
-                for (Structure s : structs) {
-                    s.draw(dc, player);
-                }
-
-                dc.redraw();
-                dc.pause(20);
-                dc.clear();
             }
         }
     }
