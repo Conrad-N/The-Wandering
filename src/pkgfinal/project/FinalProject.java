@@ -145,9 +145,15 @@ public class FinalProject {
 
                     if (dc.getKeyPress('q')) {
                         currentPlayer--;
+                        if (currentPlayer < 0) {
+                            currentPlayer = players.size() - 1;
+                        }
                     }
                     if (dc.getKeyPress('e')) {
                         currentPlayer++;
+                        if (currentPlayer > players.size()) {
+                            currentPlayer = 0;
+                        }
                     }
 
                     for (Player p : players) {

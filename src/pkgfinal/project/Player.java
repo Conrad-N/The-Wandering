@@ -129,7 +129,7 @@ public class Player {
     public void draw(DConsole dc, Player p) { //Set the players color acording to thier charge and draw them
         dc.setOrigin(DConsole.ORIGIN_TOP_LEFT);
         dc.setPaint(Color.WHITE);
-        dc.fillRect(this.x - p.scroll, this.y, 20, 20);
+        dc.fillRect(this.x - p.scroll, this.y, this.width, this.height);
     }
 
     public void scroll() { //Scroll the screen, this will simply add a position modifier when drawing things.
