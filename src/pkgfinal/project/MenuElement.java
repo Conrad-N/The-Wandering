@@ -57,12 +57,18 @@ public class MenuElement {
             }
         }
 
-        dc.setPaint(textColor);
-        if (big) {
-            dc.setFont(bigFont);
-        } else {
-            dc.setFont(smallFont);
+        if (this.text != null) {
+            dc.setPaint(this.textColor);
+            if (big) {
+                dc.setFont(this.bigFont);
+            } else {
+                dc.setFont(this.smallFont);
+            }
+            dc.drawString(this.text, this.x, this.y - this.height*0.15);
         }
-        dc.drawString(text, this.x, this.y);
+    }
+
+    public void setText(String s) {
+        this.text = s;
     }
 }
