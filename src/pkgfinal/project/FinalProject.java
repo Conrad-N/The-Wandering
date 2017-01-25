@@ -31,6 +31,8 @@ public class FinalProject {
 
         ArrayList<MenuElement> elements = new ArrayList<>();
         ArrayList<Player> players = new ArrayList<>();
+        players.add(new Player(200, 500, 20, 20, 4));
+        players.add(new Player(300, 500, 10, 40, 7));
 
         int gameState = 0;//Keeps track of which menu you're on
         int currentPlayer = 0;
@@ -145,35 +147,33 @@ public class FinalProject {
                 while (gameState == 3) { //Main game loop
                     drawPicture(dc, players.get(currentPlayer), "pixelForest");
 
-                    for (int i = 0; i < 4; i++) {
-                        if (dc.getKeyPress('q')) {
-                            currentPlayer--;
-                        }
-                        if (dc.getKeyPress('e')) {
-                            currentPlayer++;
-                        }
+                    if (dc.getKeyPress('q')) {
+                        currentPlayer--;
+                    }
+                    if (dc.getKeyPress('e')) {
+                        currentPlayer++;
+                    }
 
-                        for (Player p : players) {
-                            p.gravityForce();
-                            p.frictionForce();
-                            p.resetGrounded(structs);
-                            p.isTouchingStructure(structs);
-                            p.isTouchingPlayer(players);
-                        }
+                    for (Player p : players) {
+                        p.gravityForce();
+                        p.frictionForce();
+                        p.resetGrounded();
+                        p.isTouchingStructure(structs);
+                        p.isTouchingPlayer(players);
+                    }
 
-                        players.get(i).moveCommands(dc);
+                    players.get(currentPlayer).moveCommands(dc);
 
-                        for (Player p : players) {
-                            p.recordPrevValues();
-                            p.move();
-                            p.draw(dc, players.get(currentPlayer));
-                        }
+                    for (Player p : players) {
+                        p.recordPrevValues();
+                        p.move();
+                        p.draw(dc, players.get(currentPlayer));
+                    }
 
-                        players.get(i).scroll();
+                    players.get(currentPlayer).scroll();
 
-                        for (Structure s : structs) {
-                            s.draw(dc, players.get(currentPlayer));
-                        }
+                    for (Structure s : structs) {
+                        s.draw(dc, players.get(currentPlayer));
                     }
 
                     dc.redraw();
