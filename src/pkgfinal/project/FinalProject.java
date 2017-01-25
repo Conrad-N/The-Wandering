@@ -23,6 +23,8 @@ public class FinalProject {
 
         ArrayList<Structure> structs = new ArrayList<>();
         structs.add(new Structure(5, 750, 1100, 100));
+        structs.add(new Structure(1140, 700, 500, 100));
+        structs.add(new Structure(1000, 710, 76, 50));
 
         ArrayList<MenuElement> elements = new ArrayList<>();
         Player player = new Player(300, 500);//Initialize a new player
@@ -141,7 +143,7 @@ public class FinalProject {
 
                 while (player.isAlive()) { //Main game loop
                     drawPicture(dc, player, "pixelForest");
-                    
+
                     elements.get(1).setText(playerHealth + " / " + playerHealthMax);
                     for (int i = 0; i < elements.size(); i++) {
                         elements.get(i).draw(dc, false);
@@ -162,6 +164,7 @@ public class FinalProject {
 
                     for (Structure s : structs) {
                         s.draw(dc, player);
+
                     }
 
                     dc.redraw();
