@@ -23,15 +23,13 @@ public class FinalProject {
 
         ArrayList<Structure> structs = new ArrayList<>();
         structs.add(new Structure(5, 750, 1100, 100));
+        structs.add(new Structure(70, 700, 50, 50));
 
         ArrayList<MenuElement> elements = new ArrayList<>();
-        Player player = new Player(300, 500);//Initialize a new player
+        ArrayList<Player> players = new ArrayList<>();
 
         int gameState = 3;//Keeps track of which menu you're on
-        int damage = 0;
-        int hearts = 0;
-        int playerHealthMax = 50 + hearts;
-        int playerHealth = 50 + hearts - damage;
+        int currentPlayer = 0;
         while (true) {
             Point2D mousePos = new Point2D.Double();
 
@@ -48,6 +46,9 @@ public class FinalProject {
 
                     for (int i = 1; i < elements.size(); i++) {
                         elements.get(i).draw(dc, elements.get(i).isMousedOver(mousePos));
+                        if (elements.get(i).isMousedOver(mousePos)) {
+                            playSound(elements.get(i).getSound());
+                        }
                         if (elements.get(i).isPressed(mousePos, dc.isMouseButton(1))) {
                             gameState = i;
                         }
@@ -136,32 +137,39 @@ public class FinalProject {
             }
             if (gameState == 3) {
                 elements.clear();
-                elements.add(new MenuElement(150, 35, 270, 40, null, null, Color.BLACK, null, null, 0));
-                elements.add(new MenuElement(150, 35, 260, 30, null, "0/0", Color.RED, Color.WHITE, "Times New Roman", 20));
 
-                while (player.isAlive()) { //Main game loop
-                    drawPicture(dc, player, "pixelForest");
-                    
-                    elements.get(1).setText(playerHealth + " / " + playerHealthMax);
-                    for (int i = 0; i < elements.size(); i++) {
-                        elements.get(i).draw(dc, false);
-                    }
+                while (gameState == 3) { //Main game loop
+                    drawPicture(dc, players.get(currentPlayer), "pixelForest");
 
-                    player.gravityForce();
-                    player.frictionForce();
+                    for (int i = 0; i < 4; i++) {
+                        if (dc.getKeyPress('q')) {
+                            currentPlayer--;
+                        }
+                        if (dc.getKeyPress('e')) {
+                            currentPlayer++;
+                        }
 
-                    player.resetGrounded(structs);
-                    player.isTouchingStructure(structs);
+                        for (Player p : players) {
+                            p.gravityForce();
+                            p.frictionForce();
+                            p.resetGrounded(structs);
+                            p.isTouchingStructure(structs);
+                            p.isTouchingPlayer(players);
+                        }
 
-                    player.moveCommands(dc);
+                        players.get(i).moveCommands(dc);
 
-                    player.recordPrevValues();
-                    player.move();
-                    player.scroll();
-                    player.draw(dc);
+                        for (Player p : players) {
+                            p.recordPrevValues();
+                            p.move();
+                            p.draw(dc, players.get(currentPlayer));
+                        }
 
-                    for (Structure s : structs) {
-                        s.draw(dc, player);
+                        players.get(i).scroll();
+
+                        for (Structure s : structs) {
+                            s.draw(dc, players.get(currentPlayer));
+                        }
                     }
 
                     dc.redraw();
