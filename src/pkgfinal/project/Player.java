@@ -15,17 +15,23 @@ public class Player {
     private double yChange;
     private double x;
     private double y;
+    private double width;
+    private double height;
     private double prevX;
     private double prevY;
+    private int jumpHeight;
     private int scroll;
 
-    public Player(double x, double y) {
+    public Player(double x, double y, double width, double height, int jumpHeight) {
         this.isGrounded = true;
         this.isAlive = true;
         this.xChange = 0;
         this.yChange = 0;
         this.x = x;
         this.y = y;
+        this.width = width;
+        this.height = height;
+        this.jumpHeight = jumpHeight;
         this.prevX = x;
         this.prevY = y;
         this.xChange = 0;
@@ -60,6 +66,30 @@ public class Player {
         }
     }
 
+    public void isTouchingPlayer(ArrayList<Player> players) { //Check players current position in both dimentions and compare it
+        for (Player p : players) {
+            if (this.y + 20 > p.getY() && this.y < p.getY() + p.getHeight()) { //to the players previous position and that of the structure
+                if (this.x + 20 > p.getX() && this.prevX + 20 <= p.getX()) {
+                    this.x = p.getX() - 20;
+                    this.xChange = 0;
+                } else if (this.x < p.getX() + p.getWidth() && this.prevX >= p.getX() + p.getWidth()) {
+                    this.x = p.getX() + p.getWidth();
+                    this.xChange = 0;
+                }
+            }
+            if (this.x + 20 > p.getX() && this.x < p.getX() + p.getWidth()) {
+                if (this.y + 20 > p.getY() && this.prevY + 20 <= p.getY()) {
+                    this.y = p.getY() - 20;
+                    this.yChange = 0;
+                    this.isGrounded = true;                                     //If the player is standing on something let them move
+                } else if (this.y < p.getY() + p.getHeight() && this.prevY >= p.getY() + p.getHeight()) {
+                    this.y = p.getY() + p.getHeight();
+                    this.yChange = 0;
+                }
+            }
+        }
+    }
+
     public double getScroll() {
         return this.scroll;
     }
@@ -75,24 +105,13 @@ public class Player {
 
     public void moveCommands(DConsole dc) { //Let the player move if on the ground or wall jump
         if (this.isGrounded && dc.getKeyPress('w')) {
-            yChange = -5;
-            //this.jumpCharge = 0.1;
+            yChange = -this.jumpHeight;
         }
-
         if (dc.isKeyPressed('d')) {
-
-            if (this.isGrounded) {
-                this.xChange = Math.min(xChange + 1, 4);
-            } else {
-                this.xChange = Math.min(xChange + 0.5, 2);
-            }
+            this.xChange = Math.min(xChange + 1, 3);
         }
         if (dc.isKeyPressed('a')) {
-            if (this.isGrounded) {
-                this.xChange = Math.max(xChange - 1, -4);
-            } else {
-                this.xChange = Math.max(xChange - 0.5, -2);
-            }
+            this.xChange = Math.max(xChange - 1, -3);
         }
     }
 
@@ -107,10 +126,10 @@ public class Player {
         }
     }
 
-    public void draw(DConsole dc) { //Set the players color acording to thier charge and draw them
+    public void draw(DConsole dc, Player p) { //Set the players color acording to thier charge and draw them
         dc.setOrigin(DConsole.ORIGIN_TOP_LEFT);
         dc.setPaint(Color.WHITE);
-        dc.fillRect(this.x - this.scroll, this.y, 20, 20);
+        dc.fillRect(this.x - p.scroll, this.y, 20, 20);
     }
 
     public void scroll() { //Scroll the screen, this will simply add a position modifier when drawing things.
@@ -131,16 +150,7 @@ public class Player {
     }
 
     public void resetGrounded(ArrayList<Structure> structs) {
-        if (this.isGrounded) {
-            this.isGrounded = false;
-            for (Structure s : structs) {
-                if (new Rectangle2D.Double(this.x, this.y + 3, 20, 20).intersects(s.getRect())) {
-                    this.isGrounded = true;
-                    this.y = s.getY() - 20;
-                    this.yChange = 0;
-                }
-            }
-        }
+        this.isGrounded = false;
     }
 
     public double getX() {
@@ -149,5 +159,13 @@ public class Player {
 
     public double getY() {
         return this.y;
+    }
+
+    public double getWidth() {
+        return this.width;
+    }
+
+    public double getHeight() {
+        return this.height;
     }
 }

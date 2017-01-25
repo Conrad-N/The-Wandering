@@ -1,3 +1,4 @@
+
 package pkgfinal.project;
 
 import DLibX.DConsole;
@@ -22,18 +23,17 @@ public class FinalProject {
         dc.setMouseMode(DConsole.CURSOR_HIDDEN);
 
         ArrayList<Structure> structs = new ArrayList<>();
+        
+        structs.add(new Structure(70, 700, 50, 50));
         structs.add(new Structure(5, 750, 1100, 100));
         structs.add(new Structure(1140, 700, 500, 100));
         structs.add(new Structure(1000, 710, 76, 50));
 
         ArrayList<MenuElement> elements = new ArrayList<>();
-        Player player = new Player(300, 500);//Initialize a new player
+        ArrayList<Player> players = new ArrayList<>();
 
-        int gameState = 3;//Keeps track of which menu you're on
-        int damage = 0;
-        int hearts = 0;
-        int playerHealthMax = 50 + hearts;
-        int playerHealth = 50 + hearts - damage;
+        int gameState = 0;//Keeps track of which menu you're on
+        int currentPlayer = 0;
         while (true) {
             Point2D mousePos = new Point2D.Double();
 
@@ -50,6 +50,9 @@ public class FinalProject {
 
                     for (int i = 1; i < elements.size(); i++) {
                         elements.get(i).draw(dc, elements.get(i).isMousedOver(mousePos));
+                        if (elements.get(i).isMousedOver(mousePos)) {
+                            playSound(elements.get(i).getSound());
+                        }
                         if (elements.get(i).isPressed(mousePos, dc.isMouseButton(1))) {
                             gameState = i;
                         }
@@ -138,33 +141,39 @@ public class FinalProject {
             }
             if (gameState == 3) {
                 elements.clear();
-                elements.add(new MenuElement(150, 35, 270, 40, null, null, Color.BLACK, null, null, 0));
-                elements.add(new MenuElement(150, 35, 260, 30, null, "0/0", Color.RED, Color.WHITE, "Times New Roman", 20));
 
-                while (player.isAlive()) { //Main game loop
-                    drawPicture(dc, player, "pixelForest");
+                while (gameState == 3) { //Main game loop
+                    drawPicture(dc, players.get(currentPlayer), "pixelForest");
 
-                    elements.get(1).setText(playerHealth + " / " + playerHealthMax);
-                    for (int i = 0; i < elements.size(); i++) {
-                        elements.get(i).draw(dc, false);
-                    }
+                    for (int i = 0; i < 4; i++) {
+                        if (dc.getKeyPress('q')) {
+                            currentPlayer--;
+                        }
+                        if (dc.getKeyPress('e')) {
+                            currentPlayer++;
+                        }
 
-                    player.gravityForce();
-                    player.frictionForce();
+                        for (Player p : players) {
+                            p.gravityForce();
+                            p.frictionForce();
+                            p.resetGrounded(structs);
+                            p.isTouchingStructure(structs);
+                            p.isTouchingPlayer(players);
+                        }
 
-                    player.resetGrounded(structs);
-                    player.isTouchingStructure(structs);
+                        players.get(i).moveCommands(dc);
 
-                    player.moveCommands(dc);
+                        for (Player p : players) {
+                            p.recordPrevValues();
+                            p.move();
+                            p.draw(dc, players.get(currentPlayer));
+                        }
 
-                    player.recordPrevValues();
-                    player.move();
-                    player.scroll();
-                    player.draw(dc);
+                        players.get(i).scroll();
 
-                    for (Structure s : structs) {
-                        s.draw(dc, player);
-
+                        for (Structure s : structs) {
+                            s.draw(dc, players.get(currentPlayer));
+                        }
                     }
 
                     dc.redraw();
@@ -190,3 +199,4 @@ public class FinalProject {
         dc.drawImage("Pictures/" + s + ".jpg", 0 - p.getScroll(), 0);
     }
 }
+
