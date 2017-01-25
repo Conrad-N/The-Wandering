@@ -149,7 +149,7 @@ public class Player {
         }
     }
 
-    public void resetGrounded(ArrayList<Structure> structs) {
+    public void resetGrounded() {
         this.isGrounded = false;
     }
 
