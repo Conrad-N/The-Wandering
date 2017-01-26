@@ -1,4 +1,3 @@
-
 package pkgfinal.project;
 
 import DLibX.DConsole;
@@ -19,29 +18,29 @@ public class FinalProject {
     public static void main(String[] args) throws FileNotFoundException {
 
         DConsole dc = new DConsole(1200, 800);
-        playSound("miceonvenus");
+        playSound("miceonvenus");//Main background music
         dc.setMouseMode(DConsole.CURSOR_HIDDEN);
-
+        //Initializing the ArrayLists for all the player characters and structures
+        //MenuElement will get filled in later when the specsific situation calls for it
+        ArrayList<MenuElement> elements = new ArrayList<>();
         ArrayList<Structure> structs = new ArrayList<>();
-        
         structs.add(new Structure(70, 700, 50, 50));
         structs.add(new Structure(80, 650, 100, 20));
         structs.add(new Structure(5, 750, 1100, 100));
         structs.add(new Structure(1140, 700, 500, 100));
         structs.add(new Structure(1000, 710, 76, 50));
-        
-        ArrayList<MenuElement> elements = new ArrayList<>();
         ArrayList<Player> players = new ArrayList<>();
         players.add(new Player(200, 500, 20, 20, 4, Color.RED));
         players.add(new Player(300, 500, 10, 40, 7, Color.YELLOW));
         players.add(new Player(400, 500, 30, 15, 5, Color.BLUE));
 
-        int gameState = 0;//Keeps track of which menu you're on
+        int gameState = 0;
         int currentPlayer = 0;
         while (true) {
             Point2D mousePos = new Point2D.Double();
 
             //Clear the previous elements and make new ones once before entering the while loop
+            //This is done for every single gameState
             if (gameState == 0) {
                 elements.clear();
                 elements.add(new MenuElement(dc.getWidth() / 2, 100, 0, 0, null, "Adventure Quest: The Wandering!", null, Color.BLACK, "Times New Roman", 50));
@@ -51,12 +50,10 @@ public class FinalProject {
                     mousePos.setLocation(dc.getMouseXPosition(), dc.getMouseYPosition());
                     dc.setBackground(Color.GRAY);
                     elements.get(0).draw(dc, false);
-
+                    //Cheking if things are moused over or pressed and reacting acordingly
                     for (int i = 1; i < elements.size(); i++) {
                         elements.get(i).draw(dc, elements.get(i).isMousedOver(mousePos));
-                        if (elements.get(i).isMousedOver(mousePos)) {
-                            playSound(elements.get(i).getSound());
-                        }
+                        elements.get(i).playSoundOnMouseOver(mousePos);
                         if (elements.get(i).isPressed(mousePos, dc.isMouseButton(1))) {
                             gameState = i;
                         }
@@ -154,14 +151,14 @@ public class FinalProject {
                         if (currentPlayer < 0) {
                             currentPlayer = players.size() - 1;
                         }
-                        players.get(currentPlayer).setScroll(dc.getWidth()/2);
+                        players.get(currentPlayer).setScroll(dc.getWidth() / 2);
                     }
                     if (dc.getKeyPress('e')) {
                         currentPlayer++;
                         if (currentPlayer > players.size() - 1) {
                             currentPlayer = 0;
                         }
-                        players.get(currentPlayer).setScroll(dc.getWidth()/2);
+                        players.get(currentPlayer).setScroll(dc.getWidth() / 2);
                     }
 
                     for (Player p : players) {
@@ -171,7 +168,7 @@ public class FinalProject {
                         p.isTouchingStructure(structs);
                         p.isTouchingPlayer(players);
                     }
-
+                    //You can only control the current player
                     players.get(currentPlayer).moveCommands(dc);
 
                     for (Player p : players) {
@@ -179,13 +176,13 @@ public class FinalProject {
                         p.move();
                         p.draw(dc, players.get(currentPlayer));
                     }
-                    
+
                     players.get(currentPlayer).scroll();
 
                     for (Structure s : structs) {
                         s.draw(dc, players.get(currentPlayer));
                     }
-                    
+                    //Display which player you're controling
                     players.get(currentPlayer).drawArrow(dc);
 
                     dc.redraw();

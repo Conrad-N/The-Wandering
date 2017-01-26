@@ -42,10 +42,10 @@ public class Player {
     public boolean isAlive() {
         return this.isAlive;
     }
-
-    public void isTouchingStructure(ArrayList<Structure> structs) { //Check players current position in both dimentions and compare it
-        for (Structure s : structs) {
-            if (this.y + this.height > s.getY() && this.y < s.getY() + s.getHeight()) { //to the players previous position and that of the structure
+    //Check players current position in both dimentions and compare it to the structure
+    public void isTouchingStructure(ArrayList<Structure> structs) {
+        for (Structure s : structs) {//Also checks the players previous position
+            if (this.y + this.height > s.getY() && this.y < s.getY() + s.getHeight()) {
                 if (this.x + this.width > s.getX() && this.prevX + this.width <= s.getX()) {
                     this.x = s.getX() - this.width;
                     this.xChange = 0;
@@ -66,10 +66,10 @@ public class Player {
             }
         }
     }
-
-    public void isTouchingPlayer(ArrayList<Player> players) { //Check players current position in both dimentions and compare it
+    //Same thing as above except it takes in players rather than structures
+    public void isTouchingPlayer(ArrayList<Player> players) {
         for (Player p : players) {
-            if (this.y + this.height > p.getY() && this.y < p.getY() + p.getHeight()) { //to the players previous position and that of the structure
+            if (this.y + this.height > p.getY() && this.y < p.getY() + p.getHeight()) {
                 if (this.x + this.width > p.getX() && this.prevX + this.width <= p.getX()) {
                     this.x = p.getX() - this.width;
                     this.xChange = 0;
@@ -82,7 +82,7 @@ public class Player {
                 if (this.y + this.height > p.getY() && this.prevY + this.height <= p.getY()) {
                     this.y = p.getY() - this.height;
                     this.yChange = 0;
-                    this.isGrounded = true;                                     //If the player is standing on something let them move
+                    this.isGrounded = true;
                 } else if (this.y < p.getY() + p.getHeight() && this.prevY >= p.getY() + p.getHeight()) {
                     this.y = p.getY() + p.getHeight();
                     this.yChange = 0;
@@ -94,12 +94,12 @@ public class Player {
     public double getScroll() {
         return this.scroll;
     }
-    
+
     public void setScroll(int i) {
         this.scroll = (int) (this.x) - i;
     }
 
-    public void recordPrevValues() { //Record previous values to compare when considering colision
+    public void recordPrevValues() {
         this.prevX = this.x;
         this.prevY = this.y;
     }
@@ -107,8 +107,8 @@ public class Player {
     public void gravityForce() {
         this.yChange += 0.2;
     }
-
-    public void moveCommands(DConsole dc) { //Let the player move if on the ground or wall jump
+    //Check lateral movement or let the player jump if they're on the ground
+    public void moveCommands(DConsole dc) {
         if (this.isGrounded && dc.getKeyPress('w')) {
             yChange = -this.jumpHeight;
         }
@@ -124,23 +124,23 @@ public class Player {
         this.x += this.xChange;
         this.y += this.yChange;
     }
-
-    public void frictionForce() { //Slow the players movement as they go along the floor
+    //Slow the players movement as they slide along the floor
+    public void frictionForce() {
         if (this.isGrounded) {
-            xChange *= 0.9;
+            xChange *= 0.8;
         }
     }
 
-    public void draw(DConsole dc, Player p) { //Set the players color acording to thier charge and draw them
+    public void draw(DConsole dc, Player p) {
         dc.setOrigin(DConsole.ORIGIN_TOP_LEFT);
         dc.setPaint(this.color);
         dc.fillRect(this.x - p.scroll, this.y, this.width, this.height);
         dc.setPaint(Color.BLACK);
         dc.drawRect(this.x - p.scroll, this.y, this.width, this.height);
     }
-    
+    //Drawing a triangle above the players head
     public void drawArrow(DConsole dc) {
-        double[] Xs = {this.x + this.width/2 - 7 - this.scroll, this.x + this.width/2 - this.scroll, this.x + this.width/2 + 7 - this.scroll};
+        double[] Xs = {this.x + this.width / 2 - 7 - this.scroll, this.x + this.width / 2 - this.scroll, this.x + this.width / 2 + 7 - this.scroll};
         double[] Ys = {this.y - 11, this.y - 5, this.y - 11};
         dc.setOrigin(DConsole.ORIGIN_TOP_LEFT);
         dc.setPaint(Color.WHITE);
@@ -148,8 +148,8 @@ public class Player {
         dc.setPaint(Color.BLACK);
         dc.drawPolygon(Xs, Ys);
     }
-
-    public void scroll() { //Scroll the screen, this will simply add a position modifier when drawing things.
+    //Scroll the screen, this will simply add a position modifier when drawing things.
+    public void scroll() {
         if (this.x - this.scroll > 1000) {
             this.scrollingRight = true;
         } else if (this.x - scroll < 200) {
@@ -177,11 +177,11 @@ public class Player {
     public double getY() {
         return this.y;
     }
-    
+
     public double getWidth() {
         return this.width;
     }
-    
+
     public double getHeight() {
         return this.height;
     }
