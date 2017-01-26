@@ -1,3 +1,4 @@
+
 package pkgfinal.project;
 
 import DLibX.DConsole;
@@ -22,17 +23,20 @@ public class FinalProject {
         dc.setMouseMode(DConsole.CURSOR_HIDDEN);
 
         ArrayList<Structure> structs = new ArrayList<>();
-        structs.add(new Structure(5, 750, 1100, 100));
+        
         structs.add(new Structure(70, 700, 50, 50));
         structs.add(new Structure(80, 650, 100, 20));
-
+        structs.add(new Structure(5, 750, 1100, 100));
+        structs.add(new Structure(1140, 700, 500, 100));
+        structs.add(new Structure(1000, 710, 76, 50));
+        
         ArrayList<MenuElement> elements = new ArrayList<>();
         ArrayList<Player> players = new ArrayList<>();
         players.add(new Player(200, 500, 20, 20, 4, Color.RED));
         players.add(new Player(300, 500, 10, 40, 7, Color.YELLOW));
         players.add(new Player(400, 500, 30, 15, 5, Color.BLUE));
 
-        int gameState = 3;//Keeps track of which menu you're on
+        int gameState = 0;//Keeps track of which menu you're on
         int currentPlayer = 0;
         while (true) {
             Point2D mousePos = new Point2D.Double();
