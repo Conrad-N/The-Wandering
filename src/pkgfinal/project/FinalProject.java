@@ -24,11 +24,13 @@ public class FinalProject {
         ArrayList<Structure> structs = new ArrayList<>();
         structs.add(new Structure(5, 750, 1100, 100));
         structs.add(new Structure(70, 700, 50, 50));
+        structs.add(new Structure(80, 650, 100, 20));
 
         ArrayList<MenuElement> elements = new ArrayList<>();
         ArrayList<Player> players = new ArrayList<>();
-        players.add(new Player(200, 500, 20, 20, 4));
-        players.add(new Player(300, 500, 10, 40, 7));
+        players.add(new Player(200, 500, 20, 20, 4, Color.RED));
+        players.add(new Player(300, 500, 10, 40, 7, Color.YELLOW));
+        players.add(new Player(400, 500, 30, 15, 5, Color.BLUE));
 
         int gameState = 3;//Keeps track of which menu you're on
         int currentPlayer = 0;
@@ -148,12 +150,14 @@ public class FinalProject {
                         if (currentPlayer < 0) {
                             currentPlayer = players.size() - 1;
                         }
+                        players.get(currentPlayer).setScroll(dc.getWidth()/2);
                     }
                     if (dc.getKeyPress('e')) {
                         currentPlayer++;
-                        if (currentPlayer > players.size()) {
+                        if (currentPlayer > players.size() - 1) {
                             currentPlayer = 0;
                         }
+                        players.get(currentPlayer).setScroll(dc.getWidth()/2);
                     }
 
                     for (Player p : players) {
@@ -171,12 +175,14 @@ public class FinalProject {
                         p.move();
                         p.draw(dc, players.get(currentPlayer));
                     }
-
+                    
                     players.get(currentPlayer).scroll();
 
                     for (Structure s : structs) {
                         s.draw(dc, players.get(currentPlayer));
                     }
+                    
+                    players.get(currentPlayer).drawArrow(dc);
 
                     dc.redraw();
                     dc.pause(20);
