@@ -78,7 +78,7 @@ public class MenuElement {
             } else {
                 dc.setFont(this.smallFont);
             }
-            dc.drawString(this.text, this.x, this.y - this.height * 0.15);
+            dc.drawString(this.text, this.x, this.y - this.height * 0.12);
         }
     }
 

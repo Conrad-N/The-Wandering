@@ -2,6 +2,7 @@ package pkgfinal.project;
 
 import DLibX.DConsole;
 import java.awt.Color;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
 public class Player {
@@ -89,6 +90,15 @@ public class Player {
                 }
             }
         }
+    }
+    
+    public int isTouchingSavePoint(ArrayList<SavePoint> savePoints) {
+        for (SavePoint s : savePoints) {
+             if (s.getRect().intersects(new Rectangle2D.Double(this.x, this.y, this.width, this.height))) {
+                 return s.getNum();
+             }
+        }
+        return -1;
     }
 
     public double getScroll() {
