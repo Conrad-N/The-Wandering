@@ -30,6 +30,9 @@ public class FinalProject {
         structs.add(new Structure(5, 750, 1100, 100));
         structs.add(new Structure(1140, 700, 500, 100));
         structs.add(new Structure(1000, 710, 76, 50));
+        structs.add(new Structure(-500, 0, 505, 900));
+        structs.add(new Structure(0, 0, 1000, 60));
+        
         ArrayList<SavePoint> savePoints = new ArrayList<>();
         savePoints.add(new SavePoint(1500, 650, 20, 20, 0));
         ArrayList<Player> players = new ArrayList<>();
