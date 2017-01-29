@@ -94,7 +94,7 @@ public class Player {
     
     public int isTouchingSavePoint(ArrayList<SavePoint> savePoints) {
         for (SavePoint s : savePoints) {
-             if (s.getRect().intersects(new Rectangle2D.Double(this.x, this.y, this.width, this.height))) {
+             if (s.getRect().contains(new Rectangle2D.Double(this.x, this.y, this.width, this.height - 1))) {
                  return s.getNum();
              }
         }

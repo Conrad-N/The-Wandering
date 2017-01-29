@@ -20,16 +20,14 @@ public class FinalProject {
         DConsole dc = new DConsole(1200, 800);
         playSound("miceonvenus");//Main background music
         dc.setMouseMode(DConsole.CURSOR_HIDDEN);
-        //Initializing the ArrayLists for all the player characters and structures
-        //MenuElement will get filled in later when the specsific situation calls for it
+        dc.setBackground(Color.DARK_GRAY);
+        ArrayList<Digit> digits = new ArrayList<>();
         ArrayList<MenuElement> elements = new ArrayList<>();
         ArrayList<Scanner> fileInputs = new ArrayList<>();
         ArrayList<Structure> structs = new ArrayList<>();
-        structs.add(new Structure(70, 700, 50, 50));
-        structs.add(new Structure(80, 650, 100, 20));
-        structs.add(new Structure(5, 750, 1100, 100));
+        structs.add(new Structure(0, 750, 1100, 100));
         structs.add(new Structure(1140, 700, 500, 100));
-        structs.add(new Structure(1000, 710, 76, 50));
+        structs.add(new Structure(1000, 705, 75, 50));
         ArrayList<SavePoint> savePoints = new ArrayList<>();
         savePoints.add(new SavePoint(1500, 650, 20, 20, 0));
         ArrayList<Player> players = new ArrayList<>();
@@ -44,12 +42,17 @@ public class FinalProject {
             //This is done for every single gameState
             if (gameState == 0) {
                 elements.clear();
-                elements.add(new MenuElement(dc.getWidth() / 2, 100, 0, 0, null, "Adventure Quest: The Wandering!", null, Color.BLACK, "Times New Roman", 50));
+                elements.add(new MenuElement(dc.getWidth() / 2, 100, 0, 0, null, "Adventure Quest: The Wandering!", null, Color.WHITE, "Times New Roman", 50));
                 elements.add(new MenuElement(dc.getWidth() / 2, 400, 200, 70, "button1", "New Game", Color.CYAN, Color.BLACK, "Times New Roman", 40));
                 elements.add(new MenuElement(dc.getWidth() / 2, 500, 200, 70, "button1", "Load Game", Color.CYAN, Color.BLACK, "Times New Roman", 40));
+                elements.add(new MenuElement(dc.getWidth() / 2, 600, 200, 70, "button1", "Instructions", Color.CYAN, Color.BLACK, "Times New Roman", 40));
                 while (gameState == 0) {
                     mousePos.setLocation(dc.getMouseXPosition(), dc.getMouseYPosition());
-                    dc.setBackground(Color.GRAY);
+                    if (dc.isKeyPressed(27)) {
+                        playSound("button2");
+                        dc.pause(200);
+                        System.exit(0);
+                    }
                     elements.get(0).draw(dc, false);
                     //Cheking if things are moused over or pressed and reacting acordingly
                     for (int i = 1; i < elements.size(); i++) {
@@ -57,6 +60,9 @@ public class FinalProject {
                         elements.get(i).playSoundOnMouseOver(mousePos);
                         if (elements.get(i).isPressed(mousePos, dc.isMouseButton(1))) {
                             gameState = i;
+                            if (gameState == 3) {
+                                gameState = 5;
+                            }
                             if (gameState == 1) {
                                 gameState = 3;
                             }
@@ -71,6 +77,26 @@ public class FinalProject {
                     dc.pause(20);
                     dc.clear();
                 }
+            } else if (gameState == 5) {
+                elements.clear();
+                elements.add(new MenuElement(dc.getWidth() / 2, 200, 0, 0, null, "Use 'w', 'a', 's', and 'd' to move the characters around.", null, Color.WHITE, "Times New Roman", 25));
+                elements.add(new MenuElement(dc.getWidth() / 2, 250, 0, 0, null, "Use 'q' and 'e' to chang between characters. ", null, Color.WHITE, "Times New Roman", 25));
+                elements.add(new MenuElement(dc.getWidth() / 2, 300, 0, 0, null, "Press 'esc' to exit any menus or the game.", null, Color.WHITE, "Times New Roman", 25));
+                elements.add(new MenuElement(dc.getWidth() / 2, 350, 0, 0, null, "Press 'esc' on the main menu to close the game.", null, Color.WHITE, "Times New Roman", 25));
+                while (gameState == 5) { //Load Game
+                    if (dc.isKeyPressed(27)) {
+                        gameState = 0;
+                        playSound("button2");
+                    }
+
+                    for (int i = 0; i < 4; i++) {
+                        elements.get(i).draw(dc, false);
+                    }
+
+                    dc.redraw();
+                    dc.pause(20);
+                    dc.clear();
+                }
             } else if (gameState == 2) {
                 elements.clear();
                 fileInputs.clear();
@@ -78,12 +104,11 @@ public class FinalProject {
                 fileInputs.add(new Scanner(new File("Saves/save2.txt")));
                 fileInputs.add(new Scanner(new File("Saves/save3.txt")));
                 elements.add(new MenuElement(dc.getWidth() / 2, 50, 0, 0, null, "Pick a game file to load.", null, Color.BLACK, "Times New Roman", 50));
-                elements.add(new MenuElement(dc.getWidth() / 4 * 1, 320, 150, 150, "button1", fileInputs.get(0).nextLine(), Color.CYAN, Color.BLACK, "Times New Roman", 40));
-                elements.add(new MenuElement(dc.getWidth() / 4 * 2, 320, 150, 150, "button1", fileInputs.get(1).nextLine(), Color.CYAN, Color.BLACK, "Times New Roman", 40));
-                elements.add(new MenuElement(dc.getWidth() / 4 * 3, 320, 150, 150, "button1", fileInputs.get(2).nextLine(), Color.CYAN, Color.BLACK, "Times New Roman", 40));
+                elements.add(new MenuElement(dc.getWidth() / 4 * 1, 350, 180, 100, "button1", fileInputs.get(0).nextLine(), Color.CYAN, Color.BLACK, "Times New Roman", 40));
+                elements.add(new MenuElement(dc.getWidth() / 4 * 2, 350, 180, 100, "button1", fileInputs.get(1).nextLine(), Color.CYAN, Color.BLACK, "Times New Roman", 40));
+                elements.add(new MenuElement(dc.getWidth() / 4 * 3, 350, 180, 100, "button1", fileInputs.get(2).nextLine(), Color.CYAN, Color.BLACK, "Times New Roman", 40));
                 while (gameState == 2) { //Load Game
                     mousePos.setLocation(dc.getMouseXPosition(), dc.getMouseYPosition());
-                    dc.setBackground(Color.GRAY);
 
                     if (dc.isKeyPressed(27)) {
                         gameState = 0;
@@ -165,16 +190,30 @@ public class FinalProject {
                     players.get(currentPlayer).drawArrow(dc);
 
                     for (int i = 0; i < playersAtSaves.length; i++) {
-                        if (playersAtSaves[i] == 3) { //Let the pick the file they want to save to
+                        if (playersAtSaves[i] == 3) { //If any set of corresponding check points is filled let them save
                             gameState = 4;
-                            elements.clear();
+                            digits.clear();
                             for (int j = 0; j < 8; j++) {
-                                elements.add(new MenuElement(dc.getWidth() / 15 * (3 + i), 50, 0, 0, null, 'a', null, Color.BLACK, "Times New Roman", 30));
+                                digits.add(new Digit(dc.getWidth() / 16 * (3 + i), 500, "button1", 'a', Color.WHITE, "Times New Roman", 30));
                             }
                             int currentDigit = 0;
                             while (gameState == 4) {
                                 dc.clear();
-                                dc.setBackground(Color.GRAY);
+                                if (dc.getKeyPress(37)) {
+                                    currentDigit = Math.max(currentDigit - 1, 0);
+                                } else if (dc.getKeyPress(39)) {
+                                    currentDigit = Math.min(currentDigit + 1, 7);
+                                }
+                                for (int j = 0; j < digits.size(); j++) {
+                                    if (j == currentDigit) {
+                                        digits.get(j).changeChar(dc);
+                                        if (System.currentTimeMillis() % 1000 < 500) {
+                                            digits.get(j).draw(dc);
+                                        }
+                                    } else {
+                                        digits.get(j).draw(dc);
+                                    }
+                                }
                                 dc.redraw();
                                 dc.pause(20);
                             }
